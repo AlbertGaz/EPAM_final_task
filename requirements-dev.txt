@@ -19,3 +19,5 @@ pre-commit==2.9.3
 
 pytest>=6.2.1
 pytest-cov>=2.10.1
+
+Flask==1.1.2
