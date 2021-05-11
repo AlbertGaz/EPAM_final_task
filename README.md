@@ -17,7 +17,7 @@ Install and insert two .bin files in EPAM_final_task/app
 https://disk.yandex.ru/d/iQtM7f2yKyy7VQ?w=1
 
 ## Run tests
-`pytest --cov=app run test`
+`pytest test_app_methods.py`
 
 ## Input data
 
