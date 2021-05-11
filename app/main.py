@@ -19,7 +19,7 @@ MODEL_RU_DIR = os.path.join(DIR_PATH, "model_blanchefort_ru.bin")
 EN = "en"
 RU = "ru"
 
-RU_LETTERS = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
+RU_PATTERN = "[а-яА-Я]"
 
 NEG = "NEGATIVE"
 POS = "POSITIVE"
@@ -39,9 +39,7 @@ with open(MODEL_RU_DIR, "rb") as f_in:
 
 def detect_language(dialog: str) -> str:
     """Detect language of dialog."""
-    dialog = set(dialog)
-    ru_letters = RU_LETTERS
-    if len(dialog.intersection(ru_letters)):
+    if re.search(RU_PATTERN, dialog):
         return RU
     return EN
 

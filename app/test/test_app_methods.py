@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from app.main import (
@@ -7,6 +9,8 @@ from app.main import (
     phrases_sentiment_analyser,
     phrases_tones_for_display,
 )
+
+os.path.dirname(os.path.abspath(__file__))
 
 
 @pytest.mark.parametrize(
