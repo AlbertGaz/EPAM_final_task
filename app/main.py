@@ -1,7 +1,8 @@
 """EPAM FINAL TASK.
 
-Write dialogue sentiment analysis web API.
+Write dialog sentiment analysis web API.
 """
+import os
 import pickle
 import re
 from typing import List, Optional
@@ -11,15 +12,19 @@ from flask import redirect, render_template, request, url_for
 
 app = Flask(__name__)
 
-with open("model_cardiffnlp_en.bin", "rb") as f_in:
+dir_path = os.path.dirname(os.path.realpath(__file__))
+model_en = os.path.join(dir_path, "model_cardiffnlp_en.bin")
+model_ru = os.path.join(dir_path, "model_blanchefort_ru.bin")
+
+with open(model_en, "rb") as f_in:
     classifier_en = pickle.load(f_in)
 
-with open("model_blanchefort_ru.bin", "rb") as f_in:
+with open(model_ru, "rb") as f_in:
     classifier_ru = pickle.load(f_in)
 
 
 def detect_language(dialog: str) -> str:
-    """Detect language of dialogue."""
+    """Detect language of dialog."""
     dialog = set(dialog)
     ru_letters = "АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя"
     if len(dialog.intersection(ru_letters)):
@@ -27,7 +32,9 @@ def detect_language(dialog: str) -> str:
     return "en"
 
 
-def dialog_separator(dialog: str, delimiter: str, delimiter2: Optional[str]) -> List:
+def dialog_prepare(
+    dialog: str, delimiter: str = "- ", delimiter2: Optional[str] = None
+) -> List:
     """Separate dialogue by exchanges (replica)."""
     dialog = re.split(f"{delimiter}|{delimiter2}", dialog)
     return [exchange.strip() for exchange in dialog if exchange]
@@ -75,7 +82,7 @@ def res(dlg: str) -> str:
 
     model_result = {"en": classifier_en, "ru": classifier_ru}
 
-    dlg_list = dialog_separator(dlg, delimiter=delimiter, delimiter2=delimiter2)
+    dlg_list = dialog_prepare(dlg, delimiter=delimiter, delimiter2=delimiter2)
 
     tones = []
     tones_out = []
