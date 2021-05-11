@@ -1,3 +1,4 @@
+"""Conftest."""
 import os
 import sys
 
