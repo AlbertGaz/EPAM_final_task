@@ -3,18 +3,18 @@
 Write dialogue sentiment analysis web API.
 """
 import pickle
-from typing import Tuple
+import re
+from typing import List, Optional
 
-from flask import Flask
+from flask import Flask, Markup
 from flask import redirect, render_template, request, url_for
-
 
 app = Flask(__name__)
 
-with open("model_en.bin", "rb") as f_in:
+with open("model_cardiffnlp_en.bin", "rb") as f_in:
     classifier_en = pickle.load(f_in)
 
-with open("model_ru.bin", "rb") as f_in:
+with open("model_blanchefort_ru.bin", "rb") as f_in:
     classifier_ru = pickle.load(f_in)
 
 
@@ -27,16 +27,26 @@ def detect_language(dialog: str) -> str:
     return "en"
 
 
-def dialog_separator(dialog: str, delimiter: str = "\n") -> Tuple:
+def dialog_separator(dialog: str, delimiter: str, delimiter2: Optional[str]) -> List:
     """Separate dialogue by exchanges (replica)."""
-    dialog = dialog.split(delimiter)
-    first = [
-        exchange.strip() for i, exchange in enumerate(dialog) if i % 2 != 0 and exchange
-    ]
-    second = [
-        exchange.strip() for i, exchange in enumerate(dialog) if i % 2 == 0 and exchange
-    ]
-    return first, second
+    dialog = re.split(f"{delimiter}|{delimiter2}", dialog)
+    return [exchange.strip() for exchange in dialog if exchange]
+
+
+def sentiment_analyzer(tones: List) -> str:
+    """Count tonality from list of tonalities."""
+    mapping = {"NEGATIVE": -1, "NEUTRAL": 0, "POSITIVE": 1}
+    exchange_tone = 0
+    for label, score in tones:
+        label = mapping[label]
+        exchange_tone += label * score if score >= 0.7 else 0
+    return (
+        "POSITIVE"
+        if exchange_tone > 0
+        else "NEGATIVE"
+        if exchange_tone != 0
+        else "NEUTRAL"
+    )
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -44,21 +54,61 @@ def home() -> str:
     """Home page."""
     if request.method == "POST":
         dlg = request.form["dialog"]
-        return redirect(url_for("res", dlg=dlg))
+        delimiter = request.form["delimiter"]
+        delimiter2 = request.form["delimiter2"]
+        return redirect(
+            url_for("res", dlg=dlg, delimiter=delimiter, delimiter2=delimiter2)
+        )
     return render_template("home.html", title="Home")
 
 
 @app.route("/<dlg>")
 def res(dlg: str) -> str:
     """Page of sentiment analysis result."""
+    delimiter = request.args.get("delimiter")
+    delimiter2 = request.args.get("delimiter2")
+
+    if not delimiter:
+        delimiter = r"- "
+    if not delimiter2:
+        delimiter2 = None
+
     model_result = {"en": classifier_en, "ru": classifier_ru}
-    dlg = dialog_separator(dlg)
-    all_dlg = dlg[0] + dlg[1]
+
+    dlg_list = dialog_separator(dlg, delimiter=delimiter, delimiter2=delimiter2)
+
     tones = []
-    for exch in all_dlg:
-        tone = model_result[detect_language(exch)](exch)
-        tones.append((tone[0]["label"], tone[0]["score"]))
-    return render_template("res.html", res=str(list(zip(all_dlg, tones))))
+    tones_out = []
+    mapping = {
+        "LABEL_0": "NEGATIVE",
+        "LABEL_1": "NEUTRAL",
+        "LABEL_2": "POSITIVE",
+        "NEGATIVE": "NEGATIVE",
+        "NEUTRAL": "NEUTRAL",
+        "POSITIVE": "POSITIVE",
+    }
+    for exchange in dlg_list:
+        tone = model_result[detect_language(exchange)](exchange)
+        label, score = tone[0]["label"], tone[0]["score"]
+        label = mapping.get(label)
+        tones.append((label, score))
+        tones_out.append(
+            f"{exchange} <span style='color': ##808000;'>{label}</span> {round(score, 2)}"
+        )
+
+    out = "<br />".join(map(str, tones_out))
+    out = Markup(out)
+
+    usr1 = tones[::2]
+    usr2 = tones[1::2]
+
+    usr1_tone = sentiment_analyzer(usr1)
+    usr2_tone = sentiment_analyzer(usr2)
+    dlg_tone = sentiment_analyzer(tones)
+
+    return render_template(
+        "res.html", res=out, usr1_tone=usr1_tone, usr2_tone=usr2_tone, dlg_tone=dlg_tone
+    )
 
 
 if __name__ == "__main__":

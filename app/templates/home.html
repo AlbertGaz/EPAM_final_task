@@ -3,7 +3,9 @@
 {% block content %}
 <form action="" method="post">
     <h1>Введите диалог на русском или английском:</h1>
-    <textarea rows="5" name=dialog></textarea>
+    <p><input type="text" name=delimiter placeholder="Участник 1"></p>
+    <p><input type="text" name=delimiter2 placeholder="Участник 2"></p>
+    <textarea rows="5" name=dialog placeholder="ДИАЛОГ"></textarea>
     <p><input type="submit" value="Отправить" /></p>
 </form>
 {% endblock %}
