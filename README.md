@@ -3,8 +3,8 @@
 Corresponding repository is Flask based WEB API for Dialog Sentimental Analysis.
 For ML part pretrained models from HuggingFace were used https://huggingface.co/transformers/quicktour.html.
 
-Model for englist: cardiffnlp/twitter-roberta-base-sentiment.
-And for russian: blanchefort/rubert-base-cased-sentiment-rurewiew.
+Model for Englist: cardiffnlp/twitter-roberta-base-sentiment.
+And for Russian: blanchefort/rubert-base-cased-sentiment-rurewiew.
 
 To fasten the computation models were dumped into .bin files and uploaded in script.
 
