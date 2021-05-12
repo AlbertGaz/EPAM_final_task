@@ -9,11 +9,16 @@ And for Russian: blanchefort/rubert-base-cased-sentiment-rurewiew.
 To fasten the computation models were dumped into .bin files and uploaded in script.
 
 ## Set dev environment
-Create virtual environment
+Install python from [here](https://www.python.org/downloads/)
+
+Create virtual environment  
 `python -m venv venv`
 
-Install requirements
+Install requirements  
 `pip install -r requirements-dev.txt`
+
+To run project navigate to ..\EPAM_final_task\app and run:  
+`python main.py`
 
 ## Install ML models
 Install and insert two .bin files in EPAM_final_task/app
