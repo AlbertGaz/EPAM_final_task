@@ -8,6 +8,11 @@ And for Russian: blanchefort/rubert-base-cased-sentiment-rurewiew.
 
 To fasten the computation models were dumped into .bin files and uploaded in script.
 
+## Install ML models
+Install and insert two .bin files in EPAM_final_task/app
+
+https://disk.yandex.ru/d/iQtM7f2yKyy7VQ?w=1
+
 ## Set dev environment
 Install python from [here](https://www.python.org/downloads/)
 
@@ -19,11 +24,6 @@ Install requirements
 
 To run project navigate to ..\EPAM_final_task\app and run:  
 `python main.py`
-
-## Install ML models
-Install and insert two .bin files in EPAM_final_task/app
-
-https://disk.yandex.ru/d/iQtM7f2yKyy7VQ?w=1
 
 ## Run tests
 `pytest test_app_methods.py`
