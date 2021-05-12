@@ -1,6 +1,6 @@
 # Dialogue Sentiment Analysis
 
-Corresponding repository is Flask based WEB API for Dialog Sentimental Analysis.
+Corresponding repository is Flask based WEB API for Dialog Sentiment Analysis.
 For ML part pretrained models from HuggingFace were used https://huggingface.co/transformers/quicktour.html.
 
 Model for Englist: cardiffnlp/twitter-roberta-base-sentiment.
@@ -34,11 +34,11 @@ John I am GREAT!
 
 ## Output data
 
-When you insert you dialog and send the request new page opens. localhost:5000/<your dialog>.
+When you insert your dialog and send the request new page opens. localhost:5000/(your input dialog).
 
-First in this page you would find your dialog phrases with sentimental results and its probabilities.
+First in this page you would find your dialog phrases with sentiment results and its probabilities.
 
-Lower would be results of sentimental analysis of first and second dialog member and in the bottom you would find dialog sentiment result.
+Lower would be results of sentiment analysis of first and second dialog member and in the bottom you would find dialog sentiment result.
 
 Total tonality of dialog is a sum of sentiment weights.
 Sentiment weight is sentiment phrase result multiplied by sentiment probability of phrase.
