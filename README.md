@@ -27,13 +27,13 @@ https://disk.yandex.ru/d/iQtM7f2yKyy7VQ?w=1
 
 As default dialog delimiter "- " (minus + space) is used. If you insert dialog with "- " as delimiter you might skip input form for delimiters.
 
-*- Hi*
+*- Hi*  
 *- Hello. How are you?*
 
 Also, you can insert dialogs with custom usernames. In this case you need to add delimiter "John" and delimiter2 "Sally" in first two input forms on Homepage.
 
-*John Hello
-Sally Hi. How are you?
+*John Hello  
+Sally Hi. How are you?  
 John I am GREAT!*
 
 
