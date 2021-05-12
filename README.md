@@ -16,13 +16,13 @@ https://disk.yandex.ru/d/iQtM7f2yKyy7VQ?w=1
 ## Set dev environment
 Install python from [here](https://www.python.org/downloads/)
 
-Create virtual environment
+Create virtual environment  
 `python -m venv venv`
 
-Install requirements
+Install requirements  
 `pip install -r requirements-dev.txt`
 
-To run project navigate to ..\EPAM_final_task and run:
+To run project navigate to ..\EPAM_final_task and run:  
 `python run.py`
 
 ## Run tests
@@ -32,13 +32,13 @@ To run project navigate to ..\EPAM_final_task and run:
 
 As default dialog delimiter "- " (minus + space) is used. If you insert dialog with "- " as delimiter you might skip input form for delimiters.
 
-*- Hi*
+*- Hi*  
 *- Hello. How are you?*
 
 Also, you can insert dialogs with custom usernames. In this case you need to add delimiter "John" and delimiter2 "Sally" in first two input forms on Homepage.
 
-*John Hello
-Sally Hi. How are you?
+*John Hello  
+Sally Hi. How are you?  
 John I am GREAT!*
 
 
