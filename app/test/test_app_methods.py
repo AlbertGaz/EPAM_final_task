@@ -6,6 +6,7 @@ from app.routes import (
     detect_language,
     dialog_prepare,
     dialog_sentiment_analyzer,
+    float_to_tone,
     phrases_sentiment_analyser,
     phrases_tones_for_display,
 )
@@ -63,6 +64,14 @@ def test_dialog_prepare_with_delimiter():
 def test_phrases_sentiment_analyser(arg, res):
     tones = phrases_sentiment_analyser(arg)
     actual_result = [label for label, _ in tones]
+    assert actual_result == res
+
+
+@pytest.mark.parametrize(
+    ("arg", "res"), [(0.1, "POSITIVE"), (0, "NEUTRAL"), (-0.4, "NEGATIVE")]
+)
+def test_float_to_tone(arg, res):
+    actual_result = float_to_tone(arg)
     assert actual_result == res
 
 

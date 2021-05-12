@@ -48,6 +48,14 @@ def phrases_sentiment_analyser(dlg_list: List[str]) -> List[Tuple]:
     return tones
 
 
+def float_to_tone(sentiment_number: int) -> str:
+    """Convert float number to sentiment class."""
+    if not sentiment_number:
+        return NEU
+
+    return POS if sentiment_number > 0 else NEG
+
+
 def dialog_sentiment_analyzer(tones: List) -> Iterator:
     """Count tonality from list of tonalities."""
     mapping = {NEG: -1, NEU: 0, POS: 1}
@@ -61,7 +69,4 @@ def dialog_sentiment_analyzer(tones: List) -> Iterator:
     usr2_tone = sum(sentiment_weights[1::2])
     dlg_tone = sum(sentiment_weights)
 
-    return map(
-        lambda x: POS if x > 0 else NEG if x != 0 else NEU,
-        [usr1_tone, usr2_tone, dlg_tone],
-    )
+    return map(float_to_tone, [usr1_tone, usr2_tone, dlg_tone])
