@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from app.main import (
+from app.routes import (
     detect_language,
     dialog_prepare,
     dialog_sentiment_analyzer,

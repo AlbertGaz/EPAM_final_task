@@ -1,5 +1,5 @@
 [flake8]
-ignore = E203, E501, W503,  # handled by black
+ignore = E203, E501, F405, F403, W503,  # handled by black
          ANN101, ANN204,
          D104,  # no docstring in public package
          D200,  # One-line docstring should fit on one line with quotes
@@ -13,11 +13,10 @@ max-cognitive-complexity = 10
 per-file-ignores =
     # No docs and annotation required for tests
     test*.py: D10, D101, D103, S101, ANN
-    # Skip unused imports in __init__ files
-    __init__.py: F401
+    # Skip unused imports in __init__ files. Skip import not in top
+    __init__.py: F401, E402
     # Skip Pickle unsafe problems
-    main.py: S301, S403
-
+    ml_models.py: S301, S403
 # Import order https://pypi.org/project/flake8-import-order/
 application-import-names = app
 import-order-style = pycharm
