@@ -1,18 +1,18 @@
 """ML MODEL IMPORT."""
-import os
-import pickle
 
-DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-MODEL_EN_DIR = os.path.join(DIR_PATH, "model_cardiffnlp_en.bin")
-MODEL_RU_DIR = os.path.join(DIR_PATH, "model_blanchefort_ru.bin")
+from transformers import pipeline
+
+
+bert_base = pipeline(
+    "sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment"
+)
+rurewiew = pipeline(
+    "sentiment-analysis", model="blanchefort/rubert-base-cased-sentiment-rurewiews"
+)
 
 EN = "en"
 RU = "ru"
 
-MODELS = {}
-
-with open(MODEL_EN_DIR, "rb") as f_in:
-    MODELS[EN] = pickle.load(f_in)
-
-with open(MODEL_RU_DIR, "rb") as f_in:
-    MODELS[RU] = pickle.load(f_in)
+EN_MODELS = {"nlptown_bert_base": bert_base}
+RU_MODELS = {"blanchefort_rurewiews": rurewiew}
+MODELS = {EN: EN_MODELS, RU: RU_MODELS}

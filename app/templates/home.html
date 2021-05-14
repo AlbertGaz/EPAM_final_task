@@ -3,6 +3,16 @@
 {% block content %}
 <form action="" method="post">
     <h1>Type dialog in English or in Russian:</h1>
+    {% for i, j in LNG_MODELS %}
+    <table border="0">
+    <tbody>
+    <tr>
+    <td><input type="radio" name="model_en" value="{{ i }}"><label for="{{ i }}"> {{ i }}</label></td>
+    <td><input type="radio" name="model_ru" value="{{ j }}"><label for="{{ j }}"> {{ j }}</label></td>
+    </tr>
+    </tbody>
+    </table>
+    {% endfor %}
     <p><input type="text" name=delimiter placeholder="Member #1"></p>
     <p><input type="text" name=delimiter2 placeholder="Member #2"></p>
     <textarea rows="5" name=dialog placeholder="DIALOG"></textarea>

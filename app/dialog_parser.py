@@ -1,6 +1,6 @@
 """PARSE DIALOG."""
 import re
-from typing import Iterator, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 
 from app.ml_models import *
 
@@ -29,7 +29,7 @@ def dialog_prepare(
     return [exchange.strip() for exchange in dialog if exchange]
 
 
-def phrases_sentiment_analyser(dlg_list: List[str]) -> List[Tuple]:
+def phrases_sentiment_analyser(dlg_list: List[str], model_keys: Dict) -> List[Tuple]:
     """Sentiment analysis of every phrase in dialog."""
     tones = []
     mapping = {
@@ -40,8 +40,11 @@ def phrases_sentiment_analyser(dlg_list: List[str]) -> List[Tuple]:
         NEU: NEU,
         POS: POS,
     }
+
     for phrase in dlg_list:
-        tone = MODELS[detect_language(phrase)](phrase)
+        language = detect_language(phrase)
+        classifier = MODELS[language][model_keys[language]]
+        tone = classifier(phrase)
         label, score = tone[0]["label"], tone[0]["score"]
         label = mapping.get(label)
         tones.append((label, score))

@@ -23,10 +23,21 @@ def home() -> str:
         dlg = request.form["dialog"]
         delimiter = request.form["delimiter"]
         delimiter2 = request.form["delimiter2"]
+        model_en = request.form["model_en"]
+        model_ru = request.form["model_ru"]
         return redirect(
-            url_for("res", dlg=dlg, delimiter=delimiter, delimiter2=delimiter2)
+            url_for(
+                "res",
+                dlg=dlg,
+                delimiter=delimiter,
+                delimiter2=delimiter2,
+                model_en=model_en,
+                model_ru=model_ru,
+            )
         )
-    return render_template("home.html", title="Home")
+    return render_template(
+        "home.html", title="Home", LNG_MODELS=zip(EN_MODELS, RU_MODELS)
+    )
 
 
 @app.route("/<dlg>")
@@ -38,9 +49,13 @@ def res(dlg: str) -> str:
     delimiter2 = request.args.get("delimiter2")
     delimiter2 = None if not delimiter2 else delimiter2
 
+    model_en = request.args.get("model_en")
+    model_ru = request.args.get("model_ru")
+    model_keys = {EN: model_en, RU: model_ru}
+
     dlg_list = dialog_prepare(dlg, delimiter=delimiter, delimiter2=delimiter2)
 
-    tones = phrases_sentiment_analyser(dlg_list)
+    tones = phrases_sentiment_analyser(dlg_list, model_keys=model_keys)
     usr1_tone, usr2_tone, dlg_tone = dialog_sentiment_analyzer(tones)
 
     out = phrases_tones_for_display(dlg_list, tones)
