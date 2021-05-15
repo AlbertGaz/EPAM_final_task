@@ -1,6 +1,8 @@
 """APP ROUTES."""
+import os
+
 from flask import Markup
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, send_from_directory, url_for
 
 from app import app
 from app.dialog_parser import *
@@ -14,6 +16,12 @@ def phrases_tones_for_display(dlg_list: List, tones: List) -> str:
 
     out = "<br />".join(tones_for_display)
     return Markup(out)
+
+
+@app.route("/favicon.ico")
+def favicon() -> str:
+    """Browser get favicon."""
+    return send_from_directory(os.path.join(app.root_path, "static"), "favicon.ico")
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -36,7 +44,7 @@ def home() -> str:
             )
         )
     return render_template(
-        "home.html", title="Home", LNG_MODELS=zip(EN_MODELS, RU_MODELS)
+        "home.html", title="Home", EN_MODELS=EN_MODELS, RU_MODELS=RU_MODELS
     )
 
 

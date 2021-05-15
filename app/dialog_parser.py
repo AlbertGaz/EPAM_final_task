@@ -29,7 +29,9 @@ def dialog_prepare(
     return [exchange.strip() for exchange in dialog if exchange]
 
 
-def phrases_sentiment_analyser(dlg_list: List[str], model_keys: Dict) -> List[Tuple]:
+def phrases_sentiment_analyser(
+    dlg_list: List[str], model_keys: Dict
+) -> Optional[List[Tuple]]:
     """Sentiment analysis of every phrase in dialog."""
     tones = []
     mapping = {

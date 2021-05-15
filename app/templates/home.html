@@ -3,12 +3,22 @@
 {% block content %}
 <form action="" method="post">
     <h1>Type dialog in English or in Russian:</h1>
-    {% for i, j in LNG_MODELS %}
+    <p><label>Choose english model:</label></p>
+    {% for i in EN_MODELS %}
     <table border="0">
     <tbody>
     <tr>
-    <td><input type="radio" name="model_en" value="{{ i }}"><label for="{{ i }}"> {{ i }}</label></td>
-    <td><input type="radio" name="model_ru" value="{{ j }}"><label for="{{ j }}"> {{ j }}</label></td>
+    <td><input type="radio" name="model_en" value="{{ i }}" checked><label for="{{ i }}"> {{ i }}</label></td>
+    </tr>
+    </tbody>
+    </table>
+    {% endfor %}
+    <p><label>Choose russian model:</label></p>
+    {% for i in RU_MODELS %}
+    <table border="0">
+    <tbody>
+    <tr>
+    <td><input type="radio" name="model_ru" value="{{ i }}" checked><label for="{{ i }}"> {{ i }}</label></td>
     </tr>
     </tbody>
     </table>
