@@ -1,17 +1,24 @@
 # Dialogue Sentiment Analysis
 
-Corresponding repository is Flask based WEB API for Dialog Sentiment Analysis.
+Corresponding repository is Flask based WEB API for Dialog Sentiment Analysis.  
 For ML part pretrained models from HuggingFace were used https://huggingface.co/transformers/quicktour.html.
 
-Model for English: cardiffnlp/twitter-roberta-base-sentiment.
+Model for English: cardiffnlp/twitter-roberta-base-sentiment.  
 And for Russian: blanchefort/rubert-base-cased-sentiment-rurewiew.
 
-To fasten the computation models were dumped into .bin files and uploaded in script.
+## ML models
+Initially used models are imported from transformers package:  
+`from tramsformes import pipeline`  
+`model_ru = pipeline('sentiment-analysis', model="cardiffnlp/twitter-roberta-base-sentiment")`  
+`model_ru = pipeline('sentiment-analysis', model="blanchefort/rubert-base-cased-sentiment-rurewiews")`
 
-## Install ML models
-Install and insert two .bin files in EPAM_final_task/app
 
-https://disk.yandex.ru/d/iQtM7f2yKyy7VQ?w=1
+`model_en("I love you")`  
+[{"label": "POSITIVE", "score": 0.966648923}]
+
+
+To add model you need to add class with mapping of your model and method analyze.  
+`mapping = {"LABEL1": "POSITIVE", "LABEL2": "NEUTRAL", "LABEL3": "NEGATIVE}`
 
 ## Set dev environment
 Install python from [here](https://www.python.org/downloads/)
