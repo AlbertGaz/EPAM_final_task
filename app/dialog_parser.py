@@ -34,21 +34,13 @@ def phrases_sentiment_analyser(
 ) -> Optional[List[Tuple]]:
     """Sentiment analysis of every phrase in dialog."""
     tones = []
-    mapping = {
-        LABL0: NEG,
-        LABL1: NEU,
-        LABL2: POS,
-        NEG: NEG,
-        NEU: NEU,
-        POS: POS,
-    }
 
     for phrase in dlg_list:
         language = detect_language(phrase)
-        classifier = MODELS[language][model_keys[language]]
-        tone = classifier(phrase)
+        model = MODELS[language][model_keys[language]]
+        tone = model.analyze(phrase)
         label, score = tone[0]["label"], tone[0]["score"]
-        label = mapping.get(label)
+        label = model.mapping.get(label)
         tones.append((label, score))
     return tones
 
