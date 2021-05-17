@@ -57,4 +57,8 @@ class ML2(MLModel):
 EN_MODELS = {"nlptown_bert_base": ML1()}
 RU_MODELS = {"blanchefort_rurewiews": ML2()}
 
+for value in EN_MODELS.values():
+    if not isinstance(value, MLModel):
+        raise TypeError("Your model class should be child of MLModel!!!")
+
 MODELS = {EN: EN_MODELS, RU: RU_MODELS}
