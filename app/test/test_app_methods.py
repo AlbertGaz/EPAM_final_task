@@ -62,7 +62,9 @@ def test_dialog_prepare_with_delimiter():
     ],
 )
 def test_phrases_sentiment_analyser(arg, res):
-    tones = phrases_sentiment_analyser(arg)
+    tones = phrases_sentiment_analyser(
+        arg, {"en": "nlptown_bert_base", "ru": "blanchefort_rurewiews"}
+    )
     actual_result = [label for label, _ in tones]
     assert actual_result == res
 
